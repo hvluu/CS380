@@ -1,1 +1,1 @@
-# CS380-Exercise0
+# CS380 Exercises
