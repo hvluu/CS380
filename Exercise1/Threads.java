@@ -1,60 +1,61 @@
-import java.util.Random;
+import java.io.*;
+import java.net.Socket;
 
-// Shows a simple example of creating multiple threads.
-// This program has three threads, not two!
-// The main method itself is running in the first thread.
-// It then creates two more threads.
-// If your program needs two threads, you only have to create one!
-public final class Threads {
+public class Threads extends Thread
+{
+    private Socket socket = null;
 
-    // Shared variable used by both created threads
-    private static volatile int x = 0;
+    public Threads(Socket socket)
+    {
+        super("ServerThread for "
+                + socket.getInetAddress().getHostAddress());
+        this.socket = socket;
+    }
 
-    public static void main(String[] args) throws InterruptedException {
+    /**
+     * The overridden run() function belonging to the Thread class.
+     * This is what handles the communication between the server and the client.
+     */
+    public void run()
+    {
+        try
+        {
+            String clientAddress = socket.getInetAddress().getHostAddress();
 
-        // Creates a Runnable object that simply increments x then waits a random
-        // amount of time up to 1000 milliseconds in a loop.
-        Runnable adder = () -> {
-            Random random = new Random();
-            while (true) {
-                x++;
-                try {
-                    Thread.sleep(random.nextInt(1000));
-                } catch (InterruptedException e) {
-                    return;
-                }
+            // // String to hold messages received and read for the client.
+            String message;
+            InputStream inputStream = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
+            BufferedReader in = new BufferedReader(inputStreamReader);
+
+            // Objects needed for sending messages to the client.
+            OutputStream outputStream = socket.getOutputStream();
+            PrintStream out = new PrintStream(outputStream, true, "UTF-8");
+
+            System.out.println("Client connected: " + clientAddress);
+
+            // Welcomes the client.
+            // NOTE: This is important because the client is waiting to receive
+            // a message in order to be able to send a message to the server.
+            out.println("Hi " + clientAddress + ", thanks for connecting!"
+                + " If you would like to disconnect just type \"EXIT\".");
+
+            // Execution loop runs when the Client sends a message
+            while((message = in.readLine()) != null)
+            {
+                if(message.toUpperCase().equals("EXIT"))
+                    break;
+
+                // Echoes the message back to the client from the Server.
+                out.println(message);
             }
-        };
-
-        // Creates a Runnable object that simply decrements x then waits a random
-        // amount of time up to 1000 milliseconds in a loop.
-        Runnable subber = () -> {
-            Random random = new Random();
-            while (true) {
-                x--;
-                try {
-                    Thread.sleep(random.nextInt(1000));
-                } catch (InterruptedException e) {
-                    return;
-                }
-            }
-        };
-
-        // Creates thread objects that will execute each of the above Runnables.
-        Thread adderThread = new Thread(adder);
-        Thread subberThread = new Thread(subber);
-
-        // Starts the threads.  The code in the above Runnables will now be executing
-        // in the background as the main thread continues to the while loop below.
-        adderThread.start();
-        subberThread.start();
-
-        // No modification of x occurs in this loop.  To prove the above Runnables are
-        // actually executing in the background, we will see that the value of x being
-        // printed will be changing over time.        
-        while (true) {
-            System.out.println("x = " + x);
-            Thread.sleep(1000);
+            socket.close();
+            System.out.println("Client disconnected: " + clientAddress);
+        }
+        catch (IOException e)
+        {
+            System.err.println("ERROR: Connection lost with client "
+                + socket.getInetAddress().getHostAddress());
         }
     }
 }

@@ -12,8 +12,8 @@ public final class EchoServer
         {
             while (listening)
             {
-                // Creates and starts a new thread for the newly connected client.
-                new Thread(serverSocket.accept()).start();
+                // Creates and starts a new thread for the new connected client.
+                new Threads(serverSocket.accept()).start();
             }
         }
         catch (IOException e)
