@@ -1,22 +1,25 @@
-
-import java.io.OutputStream;
-import java.io.PrintStream;
+import java.io.IOException;
 import java.net.ServerSocket;
-import java.net.Socket;
 
-public final class EchoServer {
+public final class EchoServer
+{
+    public static void main(String[] args) throws IOException
+    {
+        int portNumber = 22222;
+        boolean listening = true;
 
-    public static void main(String[] args) throws Exception {
-        try (ServerSocket serverSocket = new ServerSocket(22222)) {
-            while (true) {
-                try (Socket socket = serverSocket.accept()) {
-                    String address = socket.getInetAddress().getHostAddress();
-                    System.out.printf("Client connected: %s%n", address);
-                    OutputStream os = socket.getOutputStream();
-                    PrintStream out = new PrintStream(os, true, "UTF-8");
-                    out.printf("Hi %s, thanks for connecting!%n", address);
-                }
+        try (ServerSocket serverSocket = new ServerSocket(portNumber))
+        {
+            while (listening)
+            {
+                // Creates and starts a new thread for the newly connected client.
+                new Thread(serverSocket.accept()).start();
             }
+        }
+        catch (IOException e)
+        {
+            System.err.println("ERROR: Could not listen on port " + portNumber + ".");
+            System.exit(-1);
         }
     }
 }
