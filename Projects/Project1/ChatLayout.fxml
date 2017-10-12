@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<BorderPane fx:id="borderPaneMain" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="background" stylesheets="Theme.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+
+
+   <bottom>
+      <HBox alignment="CENTER_LEFT" style="-fx-background-color: black;" BorderPane.alignment="CENTER">
+            <Label fx:id="statusLabel" text="Status:">
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </Label>
+      </HBox>
+   </bottom>
+
+
+   <center>
+      <GridPane>
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1233.0" minWidth="10.0" percentWidth="100.0" prefWidth="1100.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="320" minHeight="10.0" percentHeight="80.0" prefHeight="90" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="320" minHeight="10.0" percentHeight="2.0" prefHeight="90" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="320" minHeight="0.0" percentHeight="20.0" prefHeight="90" vgrow="SOMETIMES" />
+         </rowConstraints>
+            <GridPane alignment="CENTER" GridPane.rowIndex="2">
+              <columnConstraints>
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="800" minWidth="10.0" percentWidth="5.0" prefWidth="730.0" />
+                  <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="800" minWidth="10.0" percentWidth="90.0" prefWidth="730.0" />
+                <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" maxWidth="901" minWidth="10.0" percentWidth="15.0" prefWidth="192.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+                  <TextField fx:id="messageTextField" onAction="#sendMessage" promptText="Enter your message here..." GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <Button fx:id="sendButton" mnemonicParsing="false" onAction="#sendMessage" text="Send" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            </GridPane>
+            <ListView fx:id="chatWindowListView" editable="true" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #3f3f3f;" />
+         <Pane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: black;" GridPane.rowIndex="1" />
+      </GridPane>
+   </center>
+   <top>
+      <Label onMouseClicked="#logout" style="-fx-font-size: 20;" text="Logout" textAlignment="CENTER" BorderPane.alignment="CENTER_RIGHT">
+         <padding>
+            <Insets right="20.0" />
+         </padding>
+      </Label>
+   </top>
+</BorderPane>
