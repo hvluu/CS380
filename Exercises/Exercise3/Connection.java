@@ -54,7 +54,7 @@ public class Connection extends Thread
     }
 
     /**
-     * Calculates the Internet Checksum from a given array of data.
+     * Calculates the checksum from a given array of data.
      * The algorithm maintains a 32-bit number as the sum and goes through
      * the array two bytes at a time, forms a 16-bit number out of each pair
      * of bytes and adds it to the sum. After each time it adds,
@@ -62,8 +62,6 @@ public class Connection extends Thread
      * added back in to the sum (acting like a wrap-around). Finally,
      * when the sum is calculated we perform one's complement and return
      * the rightmost 16 bits of the sum.
-     * @param data - The array of bytes to calculate the Internet Checksum from.
-     * @return - Returns the Internet Checksum.
      */
     private static short checksum(byte[] data)
     {
@@ -99,8 +97,7 @@ public class Connection extends Thread
 
     /**
      * Responds to the server with the 2 byte sequence
-     * obtained from the given Internet Checksum.
-     * @param checksum - The Internet Checksum to be sent to the server.
+     * obtained from the given checksum.
      */
     private void respond(short checksum, int sequenceSize)
     {
