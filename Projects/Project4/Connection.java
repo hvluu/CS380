@@ -76,10 +76,10 @@ public class Connection extends Thread {
 
             packet[34] = (byte) 0xFF;
             packet[35] = (byte) 0xFF;
-            packet[36] = (byte) 0b00110100;
-            packet[37] = (byte) 0b00100001;
-            packet[38] = (byte) 0xB5;
-            packet[39] = (byte) 0b1110010;
+            packet[36] = (byte) 0x12;
+            packet[37] = (byte) 0xDD;
+            packet[38] = (byte) 0x66;
+            packet[39] = (byte) 0xB6;
 
             for (int m = 40; m < packet.length; m++) {
                 packet[m] = data[(m - 40)];
